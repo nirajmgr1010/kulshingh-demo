@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 class CustomEception extends Exception{
@@ -27,10 +28,15 @@ class BankDetails implements Serializable{
   private static String AccountName;
   private static long AccountNO;
   private long Balance = 0;
+  private LocalDateTime localDateTime;
   BankDetails(long b,String accountname,long AccountNO){
     this.Balance = b;
     this.AccountName = accountname;
     this.AccountNO = AccountNO;
+    this.localDateTime = LocalDateTime.now();
+  }
+  public void SetBalance(){
+    
   }
   public long Getbalance(){
     return Balance;
@@ -38,7 +44,7 @@ class BankDetails implements Serializable{
   @Override
   public String toString() {
       // TODO Auto-generated method stub
-      return "Account Name: "+AccountName+", Account NO: "+AccountNO+"Balance: "+Balance;
+      return "Account Name: "+AccountName+", Account NO: "+AccountNO+", Balance: "+Balance+", "+localDateTime;
   }
 }
 class NepalRastriyaBank{
@@ -64,11 +70,16 @@ class NepalRastriyaBank{
   private void CheckBalance(){
     for(BankDetails b: bankDetails){
         System.out.println(b);
-        System.out.println(b.Getbalance());
+        // System.out.println(b.Getbalance());
     }
   }
   private void Withdraw(long amount){
-      
+      this.Balance = amount;
+      long RemainingBalance;
+      for(BankDetails w:bankDetails){
+            RemainingBalance = w.Getbalance() - Balance;
+              toAdd(RemainingBalance);
+      }
   }
    //Serelization
    private void savebalance(){
@@ -137,14 +148,13 @@ class NepalRastriyaBank{
 public class SimpleBankingApp {
     public static void main(String[] args) {
          Scanner sc = new Scanner(System.in);
-         System.out.println("Set your 4 Digit pin: ");
-         int PIN = sc.nextInt();
-         sc.nextLine();
-      String fullName = "Kulshingh Rana Magar";
+        String fullName = "Kulshingh Rana Magar";
        long AccountNO = 8159800067l;
          NepalRastriyaBank  bank = new NepalRastriyaBank(fullName,AccountNO);
+         System.out.println("Set your 4 Digit pin: ");
+         int PIN = Integer.parseInt(sc.nextLine());
             System.out.println("Enter your 4 Digit pin");
-            int Pin = sc.nextInt();
+        int Pin = Integer.parseInt(sc.nextLine());
                 if(Pin==PIN){
                    bank.ShowMenu();
             }
