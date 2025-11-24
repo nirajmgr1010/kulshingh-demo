@@ -46,27 +46,33 @@ class BookAlreadyBorrowedException extends Exception{
            }
 }
 class DataBase implements Serializable{
+    private String memberName;
     private String Tittle;
     private String author;
     private String Category;
     private String ISBN;
     //Constructor
-    DataBase(String t,String a,String c,String ISBN){
+    DataBase(String name,String t,String a,String c,String ISBN){
+        this.memberName  = name;
      this.Tittle = t;
      this.author = a;
      this.Category = c;
      this.ISBN = ISBN;
     }
+    public String membername(){
+        return memberName;
+    }
     @Override
     public String toString(){
         // TODO Auto-generated method stub
-        return "Tittle: "+Tittle+", Author: "+author+", Category: "+Category+", ISBN: "+ISBN;
+        return "MemberName: "+memberName+"Tittle: "+Tittle+", Author: "+author+", Category: "+Category+", ISBN: "+ISBN;
     }
 }
 class Library{
     HashMap<Integer,DataBase> dHashMap = new HashMap<>();
     private static final String Path = "Library.ser";
     Scanner sc = new Scanner(System.in);
+    private String memberName;
     private String Tittle;
     private String author;
     private String Category;
@@ -75,13 +81,14 @@ class Library{
        Library(){
           loadData();
        }
-       public void toAdd(String t,String a,String C,String I,int id){
+       public void toAdd(String name,String t,String a,String C,String I,int id){
+             this.memberName = name;
              this.Tittle = t;
              this.author = a;
              this.Category = C;
              this.ISBN = I;
              this.id = id;
-                  dHashMap.put(id, new DataBase(Tittle, author, Category, ISBN));
+                  dHashMap.put(id, new DataBase(memberName,Tittle, author, Category, ISBN));
                   save();
        }
        public void save(){
@@ -133,6 +140,9 @@ class Library{
                 System.out.println("Value = " + entry.getValue());
                 System.out.println("-------------------");
             }
+            else if(){
+
+            }
         }
        }
 }
@@ -153,6 +163,8 @@ public class Librarymanagementsystem {
                 System.out.println("Enter id no in integer : ");
                 int id = sc.nextInt();
                 sc.nextLine();
+                System.out.println("Enter a member Name: ");
+                String name = sc.nextLine();
                 System.out.println("Enter a book Tittle Name: ");
                 String tittle = sc.nextLine();
                 System.out.println("Enter a author name: ");
@@ -165,7 +177,7 @@ public class Librarymanagementsystem {
                                     ISBN.substring(1, 4)+"-"+
                                     ISBN.substring(4, 9)+"-"+
                                     ISBN.substring(9);
-                l.toAdd(tittle, author, Category, Isbnresult, id);
+                l.toAdd(name,tittle, author, Category, Isbnresult, id);
                 break;
             case 2:
                 l.DeleteAllDetail();
