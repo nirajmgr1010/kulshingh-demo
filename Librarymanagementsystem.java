@@ -62,14 +62,18 @@ class DataBase implements Serializable{
     public String membername(){
         return memberName;
     }
+    public String BookName(){
+        return Tittle;
+    }
     @Override
     public String toString(){
         // TODO Auto-generated method stub
-        return "MemberName: "+memberName+"Tittle: "+Tittle+", Author: "+author+", Category: "+Category+", ISBN: "+ISBN;
+        return " Tittle: "+Tittle+", Author: "+author+", Category: "+Category+", ISBN: "+ISBN;
     }
 }
 class Library{
     HashMap<Integer,DataBase> dHashMap = new HashMap<>();
+    ArrayList<DataBase> Book = new ArrayList<>();
     private static final String Path = "Library.ser";
     Scanner sc = new Scanner(System.in);
     private String memberName;
@@ -89,11 +93,13 @@ class Library{
              this.ISBN = I;
              this.id = id;
                   dHashMap.put(id, new DataBase(memberName,Tittle, author, Category, ISBN));
+                  Book.add(new DataBase(memberName,Tittle,author,Category,ISBN));
                   save();
        }
        public void save(){
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(Path))) {
             oos.writeObject(dHashMap);
+            oos.writeObject(Book);
             System.out.println("succesfully saved");
         } catch (Exception e) {
             // TODO: handle exception
@@ -103,6 +109,7 @@ class Library{
        public void loadData(){
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(Path))) {
              dHashMap = (HashMap<Integer,DataBase>) ois.readObject();
+             Book = (ArrayList<DataBase>) ois.readObject();
         } catch (Exception e) {
             // TODO: handle exception
             System.out.println(e);
@@ -114,6 +121,11 @@ class Library{
     System.out.println("Value = " + entry.getValue());
     System.out.println("-------------------");
 }
+Iterator<DataBase> itr = Book.iterator();
+     while(itr.hasNext()){
+             DataBase d = itr.next();
+             System.out.println(d);
+     }
        }
        public void DeleteAllDetail(){
              Iterator<Map.Entry<Integer,DataBase>> itr = dHashMap.entrySet().iterator();
@@ -129,6 +141,14 @@ class Library{
         // Example: delete entries where key > 5
                 return entry.getKey() < 5;
        }
+       public void displayMember(){
+        Iterator<Map.Entry<Integer,DataBase>> itr = dHashMap.entrySet().iterator();
+        while(itr.hasNext()){
+            Map.Entry<Integer,DataBase> entry = itr.next();
+            System.out.println("Membername: "+ entry.getValue().membername());
+            System.out.println("----------------");
+        }
+       }
        public void SearchBook(){
         System.out.println("Enter key value: ");
         int id = sc.nextInt();
@@ -140,10 +160,22 @@ class Library{
                 System.out.println("Value = " + entry.getValue());
                 System.out.println("-------------------");
             }
-            else if(){
+            // else if(){
 
-            }
+            // }
         }
+       }
+       public void BorrowBook(String BookName) throws BookAlreadyBorrowedException{
+        Iterator<DataBase> itr = Book.iterator();
+     while(itr.hasNext()){
+             DataBase d = itr.next();
+            if(BookName.equalsIgnoreCase(d.BookName())){
+                   dHashMap.put(, d);
+            }
+            else{
+                throw new BookAlreadyBorrowedException();
+            }
+     }
        }
 }
 public class Librarymanagementsystem {
@@ -157,6 +189,8 @@ public class Librarymanagementsystem {
           System.out.println("Type 2 to delete all detail: ");
           System.out.println("Type 3 to search book: ");
           System.out.println("Type 4 to view All details :");
+          System.out.println("Type 5 to display the member only");
+          System.out.println("Type 6 to borrow the book");
           int num = sc.nextInt();
           switch (num) {
             case 1:
@@ -171,7 +205,7 @@ public class Librarymanagementsystem {
                 String author = sc.nextLine();
                 System.out.println("Enter a book category Name: ");
                 String Category = sc.nextLine();
-                System.out.println("Enter International Standard Book Number: Eg(0-123-45678-9) ");
+                System.out.println("Enter International Standard Book Number Atleast 10 Digit: Eg(0-123-45678-9) ");
                 String ISBN = sc.nextLine();
                 String Isbnresult = ISBN.substring(0,1)+"-"+
                                     ISBN.substring(1, 4)+"-"+
@@ -188,6 +222,20 @@ public class Librarymanagementsystem {
                     case 4:
                         l.Display();
                         break;
+                        case 5:
+                            l.displayMember();
+                            break;
+                            case 6:
+                                try{
+                                   System.out.println("Enter a book name to borrow");
+                                   String Book = sc.nextLine();
+                                  l.BorrowBook(Book);
+                                }
+                                catch(BookAlreadyBorrowedException e){
+                                          System.out.println(e);
+                                          e.printStackTrace();
+                                }
+                                break;
             default:
          check = false;
                 break;
