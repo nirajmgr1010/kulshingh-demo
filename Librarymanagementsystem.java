@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Map.Entry;
@@ -72,7 +73,7 @@ class DataBase implements Serializable{
     }
 }
 class Library{
-    HashMap<Integer,DataBase> dHashMap = new HashMap<>();
+    HashMap<Integer,List<DataBase>> dHashMap = new HashMap<>();
     ArrayList<DataBase> Book = new ArrayList<>();
     private static final String Path = "Library.ser";
     Scanner sc = new Scanner(System.in);
@@ -92,7 +93,7 @@ class Library{
              this.Category = C;
              this.ISBN = I;
              this.id = id;
-                  dHashMap.put(id, new DataBase(memberName,Tittle, author, Category, ISBN));
+                  dHashMap.put(id, (List<DataBase>) new DataBase(memberName,Tittle, author, Category, ISBN));
                   Book.add(new DataBase(memberName,Tittle,author,Category,ISBN));
                   save();
        }
@@ -108,7 +109,7 @@ class Library{
        }
        public void loadData(){
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(Path))) {
-             dHashMap = (HashMap<Integer,DataBase>) ois.readObject();
+             dHashMap = (HashMap<Integer,List<DataBase>>) ois.readObject();
              Book = (ArrayList<DataBase>) ois.readObject();
         } catch (Exception e) {
             // TODO: handle exception
@@ -116,7 +117,7 @@ class Library{
         }
        }
        public void Display(){
-      for (Map.Entry<Integer, DataBase> entry : dHashMap.entrySet()) {
+      for (Entry<Integer, List<DataBase>> entry : dHashMap.entrySet()) {
     System.out.println("Key = " + entry.getKey());
     System.out.println("Value = " + entry.getValue());
     System.out.println("-------------------");
@@ -128,33 +129,33 @@ Iterator<DataBase> itr = Book.iterator();
      }
        }
        public void DeleteAllDetail(){
-             Iterator<Map.Entry<Integer,DataBase>> itr = dHashMap.entrySet().iterator();
+             Iterator<Entry<Integer,List<DataBase>>> itr = dHashMap.entrySet().iterator();
              while(itr.hasNext()){
-                 Map.Entry<Integer, DataBase> entry = itr.next();
+                 Entry<Integer,List<DataBase>> entry = itr.next();
                  if(someCondition(entry)){
                     itr.remove();
                  } 
              }
              save();
        }
-       private boolean someCondition(Entry<Integer,DataBase> entry) {
+       private boolean someCondition(Entry<Integer,List<DataBase>> entry) {
         // Example: delete entries where key > 5
                 return entry.getKey() < 5;
        }
        public void displayMember(){
-        Iterator<Map.Entry<Integer,DataBase>> itr = dHashMap.entrySet().iterator();
+        Iterator<Entry<Integer,List<DataBase>>> itr = dHashMap.entrySet().iterator();
         while(itr.hasNext()){
-            Map.Entry<Integer,DataBase> entry = itr.next();
-            System.out.println("Membername: "+ entry.getValue().membername());
+            Entry<Integer,List<DataBase>> entry = itr.next();
+            System.out.println("Membername: "+ ((DataBase) entry.getValue()).membername());
             System.out.println("----------------");
         }
        }
        public void SearchBook(){
         System.out.println("Enter key value: ");
         int id = sc.nextInt();
-        Iterator<Map.Entry<Integer,DataBase>> itr = dHashMap.entrySet().iterator();
+        Iterator<Entry<Integer,List<DataBase>>> itr = dHashMap.entrySet().iterator();
         while(itr.hasNext()){
-            Map.Entry<Integer,DataBase> entry = itr.next();
+            Entry<Integer,List<DataBase>> entry = itr.next();
             if(entry.getKey()==id){
                 System.out.println("Key = " + entry.getKey());
                 System.out.println("Value = " + entry.getValue());
@@ -170,7 +171,7 @@ Iterator<DataBase> itr = Book.iterator();
      while(itr.hasNext()){
              DataBase d = itr.next();
             if(BookName.equalsIgnoreCase(d.BookName())){
-                   dHashMap.put(, d);
+                 dHashMap.get("1").add(d);
             }
             else{
                 throw new BookAlreadyBorrowedException();
