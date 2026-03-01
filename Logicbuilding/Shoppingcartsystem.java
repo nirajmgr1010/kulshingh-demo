@@ -43,7 +43,7 @@ class Cart{
         for(Product s: products){
             System.out.println(s);
         }
-        System.out.println("The total price is : "+totoalPrice+"$");
+        System.out.println("The total price is sfi : "+totoalPrice+"$");
     }
 
 }
