@@ -26,27 +26,77 @@ Show final bill
 class FoodItem{
    private String name;
    private double price;
-  FoodItem(String name, double price){
-       this.name = name;
-       this.price = price;
+  FoodItem(String name,double price){
+     this.name = name;
+     this.price = price;
   }
   public double getPrice(){
       return price;
+  }  
+  public String toString(){
+      return name+"    -"+price;
   }
-     public String toString(){
-       return "Your order name is: "+name+"- "+price+"$";
-     }
-}
-class Restaurant{
-      ArrayList<FoodItem> foodItem = new ArrayList<>();
-      private static final String name = "RestroBar";
-      public void toAdd(String name, double price){
-           foodItem.add(new FoodItem(name, price));
-      }
       
 
 }
+class Restaurant{
+    private String name;
+    private double price;
+    ArrayList<FoodItem> menu = new ArrayList<>();
+    public void setFoodItem(int itemNum){
+        
+        switch(itemNum){
+            case 1:
+            name = "Momo";
+            price = 150;
+            break;
+            case 2:
+            name = "Pizza";
+            price = 800;
+            break;
+            case 3:
+            name = "Burger";
+            price = 250;
+            break;
+            case 4:
+            name = "Coke";
+            price = 60;
+            break;
+            case 5:
+            name = "Chowmein";
+            price = 200;
+            break;
+        }
+        toAdd(name,price);
+    } 
+   
+    private void toAdd(String name, double price){
+        menu.add(new FoodItem(name ,price));
+    }
+    
+    public ArrayList<FoodItem> getListofFoodItem(){
+       return menu;
+    }
+
+   }
 class Order {
+    private int quantity;
+    private int itemNum;
+    Restaurant r = new Restaurant();
+    
+    ArrayList<Order> order = new ArrayList<>();
+    public void SetFun(int quantity, int itemNum){
+        this.quantity = quantity;
+        this.itemNum = itemNum;
+        r.setFoodItem(itemNum);
+    }
+    public void Display(Restaurant r){
+        ArrayList<FoodItem> list = r.getListofFoodItem(); //Fetch the list from Restaurant
+        for(FoodItem l: list){
+            System.out.println(l);
+        }
+    }
+    
     
       
         
@@ -55,6 +105,8 @@ public class OnlineFoodOrderingSystem {
     public static void main (String[] args){
         
         Scanner sc = new Scanner(System.in);
+        Order o = new Order();
+        Restaurant r = new Restaurant();
         boolean cond = true;
          System.out.println("==============================\n");
          System.out.println("    Welcome to RestroBar      \n");
@@ -78,14 +130,25 @@ public class OnlineFoodOrderingSystem {
                     System.out.println("5. Chowmein    Rs 200");
                 break;
                 case 2:
+                    System.out.println("Enter item number:");
+                    int itemnum = sc.nextInt();
+                    System.out.println("Enter quantity:");
+                    int quantity = sc.nextInt();
+                    o.SetFun(quantity, itemnum);
+//                    System.out.println(quantity+""+itemnum+"added to your order");
                 break;
                 case 3:
                 break;
                 case 4:
+                    o.Display(r);
                 break;
                 case 5:
                 break;
                 case 6:
+                    cond = false;
+                break;
+                
+                default:
                 break;
                    
             }
