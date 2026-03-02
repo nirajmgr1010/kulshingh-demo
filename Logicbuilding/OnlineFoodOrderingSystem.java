@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 /**
@@ -24,15 +25,17 @@ Show final bill
 class FoodItem{
    private String name;
    private double price;
-  FoodItem(String name,double price){
+   private int quantity;
+  FoodItem(String name,double price,int quantity){
      this.name = name;
      this.price = price;
+     this.quantity = quantity;
   }
   public double getPrice(){
-      return price;
+      return price*quantity;
   }  
   public String toString(){
-      return name+"    -"+price;
+      return name+"   "+quantity+"    -"+price*quantity;
   }
       
 
@@ -41,7 +44,7 @@ class Restaurant{
     private String name;
     private double price;
     ArrayList<FoodItem> menu = new ArrayList<>();
-    public void setFoodItem(int itemNum){
+    public void setFoodItem(int itemNum,int quantity){
         
         switch(itemNum){
             case 1:
@@ -65,11 +68,11 @@ class Restaurant{
             price = 200;
             break;
         }
-        toAdd(name,price);
+        toAdd(name,price,quantity);
     } 
    
-    private void toAdd(String name, double price){
-        menu.add(new FoodItem(name ,price));
+    private void toAdd(String name, double price, int quantity){
+        menu.add(new FoodItem(name ,price,quantity));
     }
     
     public ArrayList<FoodItem> getListofFoodItem(){
@@ -85,7 +88,7 @@ class Order {
     public void SetFun(int quantity, int itemNum,Restaurant r){
         this.quantity = quantity;
         this.itemNum = itemNum;
-        r.setFoodItem(itemNum);
+        r.setFoodItem(itemNum,quantity);
     }
     public void Display(Restaurant r){
         ArrayList<FoodItem> list = r.getListofFoodItem(); //Fetch the list from Restaurant
@@ -104,8 +107,22 @@ class Order {
             if(totalprice<1000){
                totalprice = totalprice * 0.90;
             }
+         
     }
-    
+
+    public void removeItem(int index,Restaurant r){
+           Iterator<FoodItem> it = r.menu.iterator();
+           int ConCurrentIndex = 0;
+           while (it.hasNext()) {
+            it.next();
+            if(ConCurrentIndex == index){
+                it.remove();
+                break;
+            }
+            ConCurrentIndex++;
+           }
+         System.out.println("Successfully removed");
+    }
       
         
 }
@@ -146,11 +163,17 @@ public class OnlineFoodOrderingSystem {
                     
                 break;
                 case 3:
+                    o.Display(r);
+                    System.out.println("Type index no to remove items");
+                    int index = sc.nextInt();
+                    o.removeItem(index,r);
+
                 break;
                 case 4:
                   o.Display(r);
                 break;
                 case 5:
+                    
                 break;
                 case 6:
                     cond = false;
