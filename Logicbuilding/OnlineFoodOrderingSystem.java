@@ -35,11 +35,12 @@ class FoodItem{
       return price*quantity;
   }  
   public String toString(){
-      return name+"   "+quantity+"    -"+price*quantity;
+       return name + " x" + quantity + " - Rs " + getPrice();
   }
       
 
 }
+// ----------------- Restaurant Class -----------------
 class Restaurant{
     private String name;
     private double price;
@@ -93,9 +94,11 @@ class Order {
     public void Display(Restaurant r){
         ArrayList<FoodItem> list = r.getListofFoodItem(); //Fetch the list from Restaurant
          System.out.println("------ Current Order ------");
-        for(FoodItem l: list){
-            System.out.println(l);
-        }
+            int i = 0;
+        for(FoodItem f : list){
+            System.out.println(i + ". " + f);
+            i++;
+            }
         System.out.println("---------------------------");
         System.out.println("Total price is: "+totalprice);
     }
@@ -104,7 +107,7 @@ class Order {
             for(FoodItem f: list){
                totalprice += f.getPrice();
             }
-            if(totalprice<1000){
+            if(totalprice>1000){
                totalprice = totalprice * 0.90;
             }
          
@@ -173,7 +176,7 @@ public class OnlineFoodOrderingSystem {
                   o.Display(r);
                 break;
                 case 5:
-                    
+
                 break;
                 case 6:
                     cond = false;
