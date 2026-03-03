@@ -103,7 +103,7 @@ class Order {
             total += f.getPrice();
         }
         // Apply discount if total > 1000
-        if (total > 1000) {
+        if (total > 1000.00) {
             total *= 0.90; // 10% discount
         }
         return total;
