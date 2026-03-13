@@ -13,11 +13,11 @@
         <%@include file="Components/allLink.jsp" %>
         
     </head>
-    <body>
+    <body style="background-color: #f7faf8;">
          <%@include file="Components/Navbar.jsp" %>
          <div class="container-fluid">
-             <div class="row">
-                 <div class="com-md-6 offset-md-3">
+             <div class="row p-2">
+                 <div class="col-md-6 offset-md-3">
                      <div class="card">
                          <div class="card-body">
                              <h4 class="text-center text-success">Registration Page</h4>
@@ -35,8 +35,12 @@
                                 <div class="form-group">
                                   <label for="exampleInputPassword1">Password</label>
                                   <input type="password" class="form-control" id="exampleInputPassword1">
+                                  
+                                  <div class="text-center mt-2"> 
+                                      <button type="submit" class="btn btn-primary">Register</button>
+                                  </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                
                               </form>
                          </div>
                      </div>
@@ -44,6 +48,9 @@
              </div>
          </div>
          
+                 <div style="margin-top: 180px">
+             <%@include file="Components/footer.jsp" %>
+         </div>
        
     </body>
 </html>
