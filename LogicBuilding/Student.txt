@@ -1,0 +1,4 @@
+1,Kulshingh,323.0
+2,Bishal,220.0
+3,kul,110.0
+4,sallu,110.0

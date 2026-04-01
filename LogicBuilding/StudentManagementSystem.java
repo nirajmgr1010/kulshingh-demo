@@ -111,6 +111,37 @@ class OpStudent{
         }
 
     }
+
+    public void Display(){
+        for(Student s: students){
+           if(s == null){
+            System.out.println("Student is empty");
+           }
+           else{
+            System.out.println(s);
+           }
+        }
+    }
+
+    public void Search(){
+        boolean found = false;
+        System.out.println("--- Student Details ---");
+         for(Student s: students){
+            System.out.println(s.name);
+         }
+        System.out.println("Enter a name to search student details: ");
+        String Name = sc.nextLine();
+        for(Student s: students){
+            if(s.name.toLowerCase().contains(Name.toLowerCase())){
+             System.out.println(s);
+             found = true;
+            }
+        }
+        if(!found){
+              System.out.println("Sorry the student are not find !!!");
+        }
+
+    }
     private void Save(){
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(File_Name))) {
             for(Student s: students){
@@ -148,6 +179,29 @@ class OpStudent{
 }
 public class StudentManagementSystem {
     public static void main(String[] args) {
-        
+        OpStudent student = new OpStudent();
+        Scanner sc = new Scanner(System.in);
+
+           while (true) {
+            System.out.println("\n===== Student Management System =====");
+            System.out.println("1. Add Student");
+            System.out.println("2. Show All Student");
+            System.out.println("3. Search Student by Name");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = sc.nextInt();
+            sc.nextLine(); // consume newline
+
+            switch (choice) {
+                case 1 -> student.addStudent();
+                case 2 -> student.Display();
+                case 3 -> student.Search();
+                case 4 -> {
+                    System.out.println("👋 Exiting... Thank you!");
+                    return;
+                }
+                default -> System.out.println("Invalid choice!");
+            }
+        }
     }
 }
