@@ -18,6 +18,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 class MarkException extends Exception{
@@ -142,6 +143,28 @@ class OpStudent{
         }
 
     }
+
+    public void Delete(){
+        boolean cond = false;
+        System.out.println("--- Student Id ---");
+        Display();
+        System.out.println("Enter a id no to delete student details: ");
+        int id = sc.nextInt();
+
+        Iterator<Student> it = students.iterator();
+        while (it.hasNext()) {
+             Student s = it.next();
+            
+             if(id==s.id){
+               it.remove();
+               cond = true;
+             }
+        }
+
+        if(!cond){
+            System.out.println("Sorry !!!");
+        }
+    }
     private void Save(){
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(File_Name))) {
             for(Student s: students){
@@ -187,7 +210,8 @@ public class StudentManagementSystem {
             System.out.println("1. Add Student");
             System.out.println("2. Show All Student");
             System.out.println("3. Search Student by Name");
-            System.out.println("4. Exit");
+            System.out.println("4. Delete the student");
+            System.out.println("5. Exit");
             System.out.print("Enter your choice: ");
             int choice = sc.nextInt();
             sc.nextLine(); // consume newline
@@ -196,7 +220,8 @@ public class StudentManagementSystem {
                 case 1 -> student.addStudent();
                 case 2 -> student.Display();
                 case 3 -> student.Search();
-                case 4 -> {
+                case 4 -> student.Delete();
+                case 5 -> {
                     System.out.println("👋 Exiting... Thank you!");
                     return;
                 }
