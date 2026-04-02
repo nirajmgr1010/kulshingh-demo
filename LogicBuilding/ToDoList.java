@@ -88,6 +88,15 @@ class ToDoListManagement{
 
 
 
+      public void AddTask(int id,String name, String discription){
+        task.add(new Task(id, name, discription));
+        saveTask();
+      } 
+      public void AddEmployee(int id,String name, int age){
+        employees.add(new Employee(id, age, name));
+        saveEmployee();
+      }
+
 
       public void assignedTask(int empId, int taskId){
           Employee emp = null;
@@ -115,7 +124,7 @@ class ToDoListManagement{
           }
           saveEmployee();
       }
-      public void saveTask(){
+      private void saveTask(){
          try (BufferedWriter writer = new BufferedWriter(new FileWriter(File_Name1))) {
             for(Task t : task){
                 writer.write(t.id()+ "," +t.name()+"," +t.Description());
@@ -125,7 +134,7 @@ class ToDoListManagement{
            System.out.println(e);
          }
       }
-      public void loadTask(){
+      private void loadTask(){
       File file = new File(File_Name1);
       if(!file.exists()){
         return;
@@ -145,7 +154,7 @@ class ToDoListManagement{
          System.out.println(e);
       }
       }
-      public void saveEmployee(){
+      private void saveEmployee(){
          try (BufferedWriter writer = new BufferedWriter(new FileWriter(File_Name2))) {
               for(Employee e : employees){
                 writer.write(e.id()+","+e.name()+","+e.age()+","+
@@ -156,7 +165,7 @@ class ToDoListManagement{
              System.out.println(e);
          }
       }
-      public void loadEmployee(){
+      private void loadEmployee(){
          File file = new File(File_Name2);
          if(!file.exists()){
            return;
@@ -189,6 +198,6 @@ class ToDoListManagement{
 
 public class ToDoList {
     public static void main(String[] args) {
-        
+        ToDoListManagement Management = new ToDoListManagement();
     }
 }
