@@ -50,7 +50,7 @@ class Task implements Serializable{
 
    @Override
    public String toString() {
-       return "Task Id: "+id+" Task Name: "+name+" Description: "+description+"Task Assigned : "+Status;
+       return "Task Id: "+id+" | Task Name: "+name+" | Description: "+description+" | Task Assigned : "+Status;
    }
     
 }
@@ -89,7 +89,7 @@ class Employee implements Serializable{
      }
      @Override
      public String toString() {
-         return "Id: "+id+" Employee Name: "+name+" age: "+age+" Employee Assigned : "+Status;
+         return "Id: "+id+" | Employee Name: "+name+" | age: "+age+" | Employee Assigned : "+Status;
      }
 }
 
@@ -211,7 +211,7 @@ class ToDoListManagement{
                int taskId = Integer.parseInt(data[3]);
                String Status = data[4];
 
-               Employee e = new Employee(taskId, age, name,Status);
+               Employee e = new Employee(id, age, name,Status);
                Task assignedTask = null;
                for(Task t : task){
                 if(t.id() == taskId){
@@ -227,6 +227,16 @@ class ToDoListManagement{
         }
       }
 
+      public void DisplayEmployee(){
+        for(Employee e: employees){
+          System.out.println(e);
+        }
+      }
+      public void DisplayTask(){
+        for(Task t: task){
+          System.out.println(t);
+        }
+      }
       public void DeleteEmployeeById(int Eid){
         boolean cond = false;
           Iterator<Employee> e = employees.iterator();
@@ -244,6 +254,7 @@ class ToDoListManagement{
           else{
             System.out.println("Successfully deleted Employee details");
           }
+          saveEmployee();
       }
       public void DeleteTaskByID(int Tid){
              boolean cond = false;
@@ -262,6 +273,7 @@ class ToDoListManagement{
           else{
             System.out.println("Successfully deleted Task details");
           }
+          saveTask();
       }
 
       public void DeleteAllEmployee(){
@@ -331,11 +343,13 @@ public class ToDoList {
                 case 5 -> Management.DeleteAllEmployee();
                 case 6 -> Management.DeleteAllTask();
                 case 7 ->{
+                  Management.DisplayEmployee();
                   System.out.println("Enter Employee id to Delete: ");
                   Eid = sc.nextInt();
                   Management.DeleteEmployeeById(Eid);
                 }
                 case 8 ->{
+                  Management.DisplayTask();
                   System.out.println("Enter Task id to Delete: ");
                   Tid = sc.nextInt();
                   Management.DeleteTaskByID(Tid);
